@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="patient.css">
+</head>
+<body>
+    <div>
+        <form class="register" style="width: max-content;">
+           <p>Book Appointment</p>
+           <div class="form-boxes">
+            <label>Select Date for Appointment:</label>
+            <input type="date" class="element">
+           </div>
+           <div class="form-boxes">
+            <select placeholder="Choose Doctor" class="element">
+                <option>Choose doctor</option>
+                // we not need to use output ejs tag in for loop
+                <% for(let i = 0; i<doctors.length; i++){%>
+                    <option><%=doctors[i]%></option>
+                <%}%>
+            </select>
+           </div>
+           <div class="form-boxes">
+            <textarea placeholder="Describe your common symptoms......." class="element" style="height: max-content;"></textarea>
+           </div>
+        </form>
+    </div>
+</body>
+</html>
