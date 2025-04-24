@@ -2,21 +2,26 @@ const express = require("express");
 const mysql = require("mysql2");
 const app = express();
 const path = require("path");
+const methodOverride = require("method-override");
 
 app.use(express.urlencoded(({extended: true})));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(methodOverride("_method"));
 
 app.get("/patient", (req, res) => {
    res.render("patient.ejs");
 });
+// REQUEST SETTING UP FOR WEBSITE LOADING
 app.get("/careConnect", (req, res) => {
   res.render("careConnect.ejs");
 });
+// REQUEST FOR GIVING FORM FOR REGISTERING
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 });
+// REQUEST FOR PROVIDING CUSTOMIZED DASHBOARD BASED UPON OPTION SELECT 
 app.post("/dashboard", (req, res) => {
   let {Email: email, Username: username, Password: password, Category} = req.body;
   if(Category == "Patient"){
@@ -28,6 +33,7 @@ app.post("/dashboard", (req, res) => {
     try{
       connection.query(q, (err, result) => {
         if(err) throw err;
+        console.log(result);
         res.render("patient.ejs");
       })
     }catch(err){
@@ -51,6 +57,7 @@ app.post("/dashboard", (req, res) => {
     });
   }
 });
+// REQUEST FOR BOOKING CONSULTATION ON PATIENT DASHBOARD
 app.post("/consultation", (req, res) => {
   let q = "SELECT username FROM Doctor";
   try{
@@ -65,6 +72,10 @@ app.post("/consultation", (req, res) => {
   }catch(err){
     console.log(`Error Occured: ${err}`);
   }
+});
+// REQUEST FOR REDIRECTING TO PATIENT DASHBOARD AFTER BOOKING CONSULTATION
+app.patch("/booked", (req, res) => {
+  res.redirect("/dashboard");
 });
 app.listen(8080, () => {
     console.log(`Listening Started At 8080`);
