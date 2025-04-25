@@ -10,9 +10,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
-app.get("/patient", (req, res) => {
-   res.render("patient.ejs");
-});
 // REQUEST SETTING UP FOR WEBSITE LOADING
 app.get("/careConnect", (req, res) => {
   res.render("careConnect.ejs");
@@ -21,11 +18,10 @@ app.get("/careConnect", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 });
-// REQUEST FOR PROVIDING CUSTOMIZED DASHBOARD BASED UPON OPTION SELECT 
-app.post("/dashboard", (req, res) => {
+// REQUEST FOR DISPLAYING PATIENT DASHBOARD AFTER USER SELECTED PATIENT OPTION IN REGISTER FORM
+app.post("/patient", (req, res) => {
   let {Email: email, Username: username, Password: password, Category} = req.body;
-  if(Category == "Patient"){
-    let q = `SELECT count(username) FROM Patient`;
+  let q = `SELECT count(username) FROM Patient`;
     connection.query(q, (err, result) => {
       if(err) throw err;
       let id = result[0]["count(username)"];
@@ -33,15 +29,16 @@ app.post("/dashboard", (req, res) => {
     try{
       connection.query(q, (err, result) => {
         if(err) throw err;
-        console.log(result);
         res.render("patient.ejs");
       })
     }catch(err){
         console.log(`Error Found: ${err}`);
     }
     });
-  }else{
-    let q = `SELECT count(username) FROM Doctor`;
+});
+// REQUEST FOR DISPLAYING DOCTOR DASHBOARD AFTER USER SELECTED DOCTOR OPTION IN REGISTER FORM
+app.post("/doctor", (req, res) => {
+  let q = `SELECT count(username) FROM Doctor`;
     connection.query(q, (err, result) => {
       if(err) throw err;
       let id = result[0]["count(username)"];
@@ -55,7 +52,6 @@ app.post("/dashboard", (req, res) => {
         console.log(`Error Found: ${err}`);
     }
     });
-  }
 });
 // REQUEST FOR BOOKING CONSULTATION ON PATIENT DASHBOARD
 app.post("/consultation", (req, res) => {
