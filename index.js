@@ -71,7 +71,7 @@ app.post("/consultation", (req, res) => {
 });
 // REQUEST FOR REDIRECTING TO PATIENT DASHBOARD AFTER BOOKING CONSULTATION
 app.patch("/booked", (req, res) => {
-  res.redirect("/dashboard");
+  res.redirect("/patient");
 });
 app.listen(8080, () => {
     console.log(`Listening Started At 8080`);
