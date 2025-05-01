@@ -21,13 +21,19 @@ app.get("/register", (req, res) => {
 // REQUEST FOR DISPLAYING PATIENT DASHBOARD AFTER USER SELECTED PATIENT OPTION IN REGISTER FORM
 app.post("/patient", (req, res) => {
   let {Email: email, Username: username, Password: password, Category} = req.body;
-  let q = `SELECT count(username) FROM Patient`;
+  let b = `SELECT * FROM Patient WHERE username = ?`;
+  connection.query(b, [username], (err, result) => {
+    if(err) throw err;
+    if(result.length > 0){
+      res.render("patient.ejs");
+    }else{
+      let q = `SELECT count(username) FROM Patient`;
     connection.query(q, (err, result) => {
       if(err) throw err;
       let id = result[0]["count(username)"];
-      let q = `INSERT INTO Patient (id, email, username, password) VALUES (${id}, "${email}", "${username}", "${password}")`;
+      let p = `INSERT INTO Patient (id, email, username, password) VALUES (${id}, "${email}", "${username}", "${password}")`;
     try{
-      connection.query(q, (err, result) => {
+      connection.query(p, (err, result) => {
         if(err) throw err;
         res.render("patient.ejs");
       })
@@ -35,6 +41,8 @@ app.post("/patient", (req, res) => {
         console.log(`Error Found: ${err}`);
     }
     });
+    }
+  });
 });
 // REQUEST FOR DISPLAYING DOCTOR DASHBOARD AFTER USER SELECTED DOCTOR OPTION IN REGISTER FORM
 app.post("/doctor", (req, res) => {
