@@ -33,9 +33,19 @@
                 <label style="margin: 10px 0px;"><input type="checkbox" style="margin-right: 6px;" name="fees" value="500-1000">500-1000</label>
                 <label style="margin: 10px 0px;"><input type="checkbox" style="margin-right: 6px;" name="fees" value="1000+">1000+</label>
             </div>
-            <button type="submit" style="font-size: 50px;">Apply Filter</button>
+            <button type="submit" class="applyFilter">Apply Filter</button>
             </form>
     </div>
-    <div class="mainBox"></div>
+    <div class="mainBox">
+        <h1>Consult Doctors Online or For Physical Visit: </h1>
+        <% for(doctor of doctors){%>
+            <div class="doctorBox" style="height: max-content; padding: 10px 30px; border: 1px solid #80808057; border-radius: 10px;">
+                <p class="name" style="font-weight: 700; margin: 5px 0px;"><%= doctor.username%></p>
+                <p style="font-weight: 500; color: gray; margin: 5px 0px;">General Physician</p>
+                <p class="experience" style="font-weight: 700; color: #6e849e;"><%= doctor.experience%> Years > MBBS</p>
+                <span style="font-weight: 600;">₹<%= doctor.fees%><button><%= doctor.consult%></button></span>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

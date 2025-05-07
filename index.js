@@ -69,7 +69,7 @@ app.post("/consultation", (req, res) => {
       if(err) throw err;
       let doctors = [];
       for(let i = 0; i<result.length; i++){
-         doctors.push(result[i]["username"]);
+         doctors.push(result[i]);
       }
       res.render("consultation.ejs", {doctors});
     });
