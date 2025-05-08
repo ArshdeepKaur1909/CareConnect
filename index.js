@@ -20,7 +20,7 @@ app.get("/register", (req, res) => {
 });
 // REQUEST FOR DISPLAYING PATIENT DASHBOARD AFTER USER SELECTED PATIENT OPTION IN REGISTER FORM
 app.post("/patient", (req, res) => {
-  let {Email: email, Username: username, Password: password, Category} = req.body;
+  let {Email: email, Username: username, Password: password} = req.body;
   let b = `SELECT * FROM Patient WHERE username = ?`;
   connection.query(b, [username], (err, result) => {
     if(err) throw err;
@@ -46,24 +46,38 @@ app.post("/patient", (req, res) => {
 });
 // REQUEST FOR DISPLAYING DOCTOR DASHBOARD AFTER USER SELECTED DOCTOR OPTION IN REGISTER FORM
 app.post("/doctor", (req, res) => {
-  let q = `SELECT count(username) FROM Doctor`;
+  let {Email: email, Username: username, Password: password} = req.body;
+  let b = `SELECT * FROM Doctor WHERE username = ?`;
+  connection.query(b, [username], (err, result) => {
+    if(err) throw err;
+    if(result.length > 0){
+      let c = `SELECT id FROM Doctor WHERE username = "${username}"`;
+      connection.query(c, (err, result) => {
+        if(err) throw err;
+        let id = result[0]["id"];
+        res.render("doctor.ejs", {id});
+      });
+    }else{
+      let q = `SELECT count(username) FROM Doctor`;
     connection.query(q, (err, result) => {
       if(err) throw err;
       let id = result[0]["count(username)"];
-      let q = `INSERT INTO Doctor (id, email, username, password) VALUES (${id}, "${email}", "${username}", "${password}")`;
+      let p = `INSERT INTO Doctor (id, email, username, password) VALUES (${id}, "${email}", "${username}", "${password}")`;
     try{
-      connection.query(q, (err, result) => {
+      connection.query(p, (err, result) => {
         if(err) throw err;
-        res.render("doctor.ejs");
+        res.render("doctor.ejs", {id});
       })
     }catch(err){
         console.log(`Error Found: ${err}`);
     }
     });
+    }
+  });
 });
 // REQUEST FOR BOOKING CONSULTATION ON PATIENT DASHBOARD
 app.post("/consultation", (req, res) => {
-  let q = "SELECT username FROM Doctor";
+  let q = "SELECT * FROM Doctor";
   try{
     connection.query(q, (err, result) =>{
       if(err) throw err;
@@ -77,9 +91,15 @@ app.post("/consultation", (req, res) => {
     console.log(`Error Occured: ${err}`);
   }
 });
-// REQUEST FOR REDIRECTING TO PATIENT DASHBOARD AFTER BOOKING CONSULTATION
-app.patch("/booked", (req, res) => {
-  res.redirect("/patient");
+// REQUEST FOR ADDING ADDITIONAL INFORMATION OF DOCTOR TO DOCTOR DATABASE
+app.post("/addInfo/:id", (req, res) => {
+ let {id: Id} = req.params;
+ let {Speciality: speciality, Experience: experience, Fees: fees, Consult: consult} = req.body;
+ let q = `UPDATE doctor SET speciality = "${speciality}", experience = ${experience}, Fees = ${fees}, Consult = "${consult}" WHERE id = ${Id}`;
+ connection.query(q, (err, result) => {
+   if (err) throw err;
+   console.log(result);
+ });
 });
 app.listen(8080, () => {
     console.log(`Listening Started At 8080`);

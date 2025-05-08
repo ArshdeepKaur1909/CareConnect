@@ -4,8 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Care Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/register.css">
 </head>
 <body>
-    
+    <center>
+        <div class="register">
+            <form method="post" action="/addInfo/<%= id%>">
+                <p>Please Fill Your Consultation Details</p>
+                <div class="form-boxes">
+                    <label>Speciality:</label>
+                    <input type="text" name="Speciality" class="element">
+                </div>
+                <div class="form-boxes">
+                    <label>Experience(In Years):</label>
+                    <input type="text" name="Experience" class="element">
+                </div>
+                <div class="form-boxes">
+                    <label>Fees(In Rupees):</label>
+                    <input type="text" name="Fees" class="element">
+                </div>
+                <fieldset class="form-boxes">
+                    <legend>Modes of Consult</legend>
+                    <label style="margin-left: 50px;"><input type="checkbox" name="Consult" value="Online Consult">Online Consult</label>
+                    <label style="margin-left: 50px;"><input type="checkbox" name="Consult" value="Hospital Visit">Hospital Visit</label>
+                </fieldset>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </center>
 </body>
 </html>

@@ -34,7 +34,7 @@ form p{
 .element{
   width: 80rem; height: 100px; margin: 20px; border: 5px solid black; font-size: 80px;
 }
-input[type="radio"] {
+input[type="radio"], input[type="checkbox"]{
   transform: scale(6);  /* increased from 1.5 to 6 for 100px labels */
   margin-right: 30px;
   vertical-align: middle;
