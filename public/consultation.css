@@ -68,3 +68,15 @@ input[type="checkbox"]{
     font-size: 80px;
     margin: 50px 0;
 }
+.doctorBox button{
+  position: relative; 
+  left: 75%; 
+  margin: 20px 30px;
+  border: 1px solid #6e849e;
+  color: #6e849e;
+  font-size: 80px;
+  font-weight: 700;
+  padding: 5px 15px;
+  border-radius: 5px;
+  background-color: #fff; 
+}
