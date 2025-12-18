@@ -82,7 +82,6 @@ app.post("/addInfo/:id", (req, res) => {
  let q = `UPDATE doctor SET speciality = "${speciality}", experience = ${experience}, Fees = ${fees}, Consult = "${consult}" WHERE id = ${Id}`;
  connection.query(q, (err, result) => {
    if (err) throw err;
-   console.log(result);
  });
 });
 // REQUEST FOR BOOKING CONSULTATION ON PATIENT DASHBOARD
