@@ -3,12 +3,22 @@ const mysql = require("mysql2");
 const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
+const port = process.env.PORT || 8080;
+require("dotenv").config();
 
 app.use(express.urlencoded(({extended: true})));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
+
+// SETTING UP THE CONNECTION BETWEEN DATABASE AND INDEX.JS
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST, 
+  user: process.env.DB_USER, 
+  database: process.env.DB_NAME, 
+  password: process.env.DB_PASSWORD,
+});
 
 // REQUEST SETTING UP FOR WEBSITE LOADING
 app.get("/careConnect", (req, res) => {
@@ -136,13 +146,6 @@ app.get("/consultation", (req, res) => {
     res.render("consultation.ejs", { result });
   });
 });
-app.listen(8080, () => {
+app.listen(PORT, () => {
     console.log(`Listening Started At 8080`);
-});
-// SETTING UP THE CONNECTION BETWEEN DATABASE AND INDEX.JS
-const connection = mysql.createConnection({
-  host: 'localhost', 
-  user:'root', 
-  database: 'CareConnect', 
-  password: 'Arshbanwait2@'
 });
