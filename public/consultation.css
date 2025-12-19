@@ -53,7 +53,7 @@ input[type="checkbox"]{
     margin: 30px 0 20px 20%;
 }
 .mainBox{
-    height: 100vh;
+    height: auto;
     flex: 1;
     background-color: white;
     margin: 50px;
