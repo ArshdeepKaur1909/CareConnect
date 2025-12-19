@@ -3,8 +3,9 @@ const mysql = require("mysql2");
 const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 require("dotenv").config();
+import fs from 'fs';
 
 app.use(express.urlencoded(({extended: true})));
 app.set("view engine", "ejs");
@@ -14,10 +15,14 @@ app.use(methodOverride("_method"));
 
 // SETTING UP THE CONNECTION BETWEEN DATABASE AND INDEX.JS
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST, 
-  user: process.env.DB_USER, 
-  database: process.env.DB_NAME, 
-  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  ssl: {
+    ca: fs.readFileSync('C:/projects/careconnect/certs/isrgrootx1.pem')
+  }
 });
 
 // REQUEST SETTING UP FOR WEBSITE LOADING
