@@ -34,7 +34,7 @@ const connection = mysql.createConnection({
 });
 
 // REQUEST SETTING UP FOR WEBSITE LOADING
-app.get("/careConnect", (req, res) => {
+app.get("/", (req, res) => {
   res.render("careConnect.ejs");
 });
 // REQUEST FOR GIVING FORM FOR REGISTERING
