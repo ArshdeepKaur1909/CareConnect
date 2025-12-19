@@ -1,13 +1,21 @@
-const express = require("express");
-const mysql = require("mysql2");
-const app = express();
-const path = require("path");
-const methodOverride = require("method-override");
-const PORT = process.env.PORT || 8080;
-require("dotenv").config();
-import fs from 'fs';
+import express from "express";
+import mysql from "mysql2";
+import path from "path";
+import methodOverride from "method-override";
+import dotenv from "dotenv";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
-app.use(express.urlencoded(({extended: true})));
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+/* recreate __dirname for ES modules */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -21,7 +29,7 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   ssl: {
-    ca: fs.readFileSync('C:/projects/careconnect/certs/isrgrootx1.pem')
+    ca: fs.readFileSync(process.env.DB_SSL_CA)
   }
 });
 
